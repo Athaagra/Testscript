@@ -10,5 +10,20 @@ beforeall(async ()=> {
 
   await mongoose.connect(mongoUri,{
    useNewUrlParser: true,
+   useUnifiedTopology: true
   });
+});
+
+beforeEach(async ()=> {
+  const collections = await mongoose.connections.db.collections();
+
+  for (let collection of collections) {
+    await collection.deleteMany({});
+  }
+});
+
+afterAll(async ()=> {
+  await mongo.stop();
+  await mongoose.connection.close();
+  
 });
